@@ -217,7 +217,6 @@ namespace TrabalhoPratico1
         static void Main(string[] args)
         {
             bool vitoria = false;
-            Tabuleiro tabuleiro = new Tabuleiro();
             Jogador[] Jogadores = new Jogador[4];
 
             int qtdJogadores = 0;
