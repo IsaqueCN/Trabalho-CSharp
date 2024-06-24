@@ -7,7 +7,7 @@ namespace TrabalhoPratico1
         Random Random = new Random();
 
         private string cor;
-        private Fileira minhaFileira;
+        private string minhaFileira;
         private Peao[] meusPeoes = new Peao[4];
 
         public string Cor
@@ -16,10 +16,10 @@ namespace TrabalhoPratico1
             set { cor = value; }
         }
 
-        public Fileira MinhaFileira
+        public string MinhaFileira
         {
-            get { return minhaFileira; }
-            set { minhaFileira = value; }
+            get { return minhaFileira.ToLower(); }
+            set { minhaFileira = value.ToLower(); }
         }
 
         public Peao[] MeusPeoes
@@ -28,10 +28,10 @@ namespace TrabalhoPratico1
             set { meusPeoes = value; }
         }
 
-        public Jogador(Fileira fileira)
+        public Jogador(string fileira)
         {
             MinhaFileira = fileira;
-            cor = fileira.Cor;
+            cor = fileira;
 
             MeusPeoes[0] = new Peao(this, MinhaFileira, "Peao 1");
             MeusPeoes[1] = new Peao(this, MinhaFileira, "Peao 2");
@@ -97,20 +97,36 @@ namespace TrabalhoPratico1
 
             MeusPeoes[peaoEscolhido].Mover(numAleatorio);
         }
-        public int RolarDado()
+        
+        // Retorna null se tiver pegado 6 três vezes, senão retorna um vetor com os dados rolados, no vetor 0 significa fim.
+        public int[] RolarDado()
         {
-            return Random.Next(0, 7);
+            int[] dadosRolados = new int[3];
+            int contador = 0;
+            int dado;
+
+            while ((dado = Random.Next(1,7)) == 6 && contador < 3)
+            {
+                dadosRolados[contador] = dado;
+                contador++;
+            }
+
+            if (contador == 3)
+                return null;
+
+            dadosRolados[contador] = dado;
+            return dadosRolados;
         }
     }
     class Peao
     {
         private string nome;
         private Jogador meuJogador;
-        private Fileira minhaFileira;
-        private Fileira fileiraAtual;
+        private string minhaFileira;
+        private string fileiraAtual;
         private string cor;
         private bool comecou = false;
-        private string posicao = "-1";
+        private int posicao = -1;
 
         public string Nome
         {
@@ -122,9 +138,9 @@ namespace TrabalhoPratico1
             get { return meuJogador; }
         }
 
-        public Fileira MinhaFileira
+        public string MinhaFileira
         {
-            get { return minhaFileira; }
+            get { return minhaFileira.ToLower(); }
         }
 
         public string Cor
@@ -132,183 +148,68 @@ namespace TrabalhoPratico1
             get { return cor; }
         }
 
-        public Fileira FileiraAtual
+        public string FileiraAtual
         {
-            get { return fileiraAtual; }
-            set { fileiraAtual = value; }
+            get { return fileiraAtual.ToLower(); }
+            set { fileiraAtual = value.ToLower(); }
         }
         public bool Comecou
         {
             get { return comecou; }
             set { comecou = value; }
         }
-        public string Posicao
+        public int Posicao
         {
             get { return posicao; }
             set { posicao = value; }
         }
 
 
-        public Peao(Jogador Jogador, Fileira Fileira, string Nome)
+        public Peao(Jogador Jogador, string Fileira, string Nome)
         {
             meuJogador = Jogador;
+            cor = Fileira;
             minhaFileira = Fileira;
             FileiraAtual = Fileira;
             nome = Nome;
-            cor = MinhaFileira.Cor;
         }
 
         public void Mover(int casas)
         {
             if (Comecou == false)
             {
-                Posicao = MinhaFileira.MoverPeao(this, 0);
-                Console.WriteLine($"Peão {Nome} retirado do ínicio da fileira {MinhaFileira.Cor}");
+                posicao = 0;
+                fileiraAtual = minhaFileira;
+                Console.WriteLine($"Peão {Nome} retirado do ínicio da fileira {MinhaFileira}");
             }
             else
             {
-                Posicao = MinhaFileira.MoverPeao(this, casas);
-                Console.WriteLine($"Peão {Nome} movido.");
-            }
-        }
-    }
-    class Fileira
-    {
-        private string cor;
-        private string[,] casas = new string[6, 3];
-        private int contadorPeoes = 0;
-        private Peao[] meusPeoes = new Peao[16];
-
-        public string Cor
-        {
-            get { return cor; }
-        }
-
-        public string[,] Casas
-        {
-            get { return casas; }
-            set { casas = value; }
-        }
-
-        public int ContadorPeoes
-        {
-            get { return contadorPeoes; }
-            set { contadorPeoes = value; }
-        }
-        public Peao[] MeusPeoes
-        {
-            get { return meusPeoes; }
-            set { meusPeoes = value; }
-        }
-        public Fileira(string Cor)
-        {
-            cor = Cor;
-        }
-
-        public string MoverPeao(Peao peao, int casas)
-        {
-            if (casas == 0) // Se o peão está saindo do ínicio
-            {
-                Casas[1, 3] = ContadorPeoes.ToString();
-                MeusPeoes[ContadorPeoes] = peao;
-                ContadorPeoes++;
-                return "1 3";
-            }
-            else
-            {
-                string[] posicao = peao.Posicao.Split(' ');
-                int linha = int.Parse(posicao[0]);
-                int coluna = int.Parse(posicao[1]);
-
-                if (coluna == 1)
+                int POS = posicao % 13;
+                
+                if (POS + casas >= 13)
                 {
-                    // Se está vindo
+                    fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
+                    Console.WriteLine($"Peão {Nome} moveu para a fileira {fileiraAtual}!");
                 }
-
-                if (coluna == 2)
-                {
-                    // Se está no meio
-                }
-
-                if (coluna == 3)
-                {
-                    int Novalinha = linha + casas;
-                    int resto = linha % 6;
-
-                    if (resto > 0)
-                    {
-                        // Fazer o peao ir para a próxima fileira
-                    }
-                    else
-                    {
-                        Casas[linha, coluna] = "-1";
-                        return Novalinha + " 3";
-                    }
-                }
+                posicao += casas;
+                Console.WriteLine($"Peão {Nome} está agora na posição {posicao}");
             }
-
-            return "0";
         }
     }
 
     class Tabuleiro
     {
-        private Fileira[] fileiras;
-        public Fileira[] Fileiras
+        public static string EncontrarProximaFileira(string fileira)
         {
-            get { return fileiras; }
-        }
-        public Fileira FileiraAmarela
-        {
-            get { return fileiras[0]; }
-        }
-        public Fileira FileiraAzul
-        {
-            get { return fileiras[1]; }
-        }
-        public Fileira FileiraVermelha
-        {
-            get { return fileiras[2]; }
-        }
-        public Fileira FileiraVerde
-        {
-            get { return fileiras[3]; }
-        }
-
-        public Fileira EncontrarFileiraPorCor(string cor)
-        {
-            cor = cor.ToLower();
-
-            switch (cor)
+            fileira = fileira.ToLower();
+            switch (fileira)
             {
-                case "amarelo": return FileiraAmarela;
-                case "verde": return FileiraVerde;
-                case "azul": return FileiraAzul;
-                case "vermelho": return FileiraVermelha;
+                case "amarelo": return "azul";
+                case "azul": return "vermelho";
+                case "vermelho": return "verde";
+                case "verde": return "amarelo";
                 default: return null;
             }
-        }
-
-        public Fileira EncontrarProximaFileira(Fileira fileira)
-        {
-            switch (fileira.Cor)
-            {
-                case "Amarela": return FileiraAzul;
-                case "Azul": return FileiraVermelha;
-                case "Vermelha": return FileiraVerde;
-                case "Verde": return FileiraAmarela;
-                default: return null;
-            }
-        }
-        public Tabuleiro()
-        {
-            fileiras = new Fileira[4]
-            {
-                new Fileira("Amarela"),
-                new Fileira("Azul"),
-                new Fileira("Vermelha"),
-                new Fileira("Verde"),
-            };
         }
     }
     class Jogo
@@ -376,15 +277,15 @@ namespace TrabalhoPratico1
 
                 if (qtdJogadores == 4)
                 {
-                    Jogadores[i] = new Jogador(tabuleiro.EncontrarFileiraPorCor(coresAceitas[cor - 1]));
+                    Jogadores[i] = new Jogador(coresAceitas[cor - 1].ToLower());
                 } else
                 {
                     string[] coresEscolhidas = coresAceitas[cor - 1].Split(' ');
-                    string cor1 = coresEscolhidas[0];
-                    string cor2 = coresEscolhidas[2];
+                    string cor1 = coresEscolhidas[0].ToLower();
+                    string cor2 = coresEscolhidas[2].ToLower();
 
-                    Jogadores[0] = new Jogador(tabuleiro.EncontrarFileiraPorCor(cor1));
-                    Jogadores[1] = new Jogador(tabuleiro.EncontrarFileiraPorCor(cor2));
+                    Jogadores[0] = new Jogador(cor1);
+                    Jogadores[1] = new Jogador(cor2);
                     break;
                 }
 
