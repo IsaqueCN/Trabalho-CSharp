@@ -302,9 +302,7 @@ namespace TrabalhoPratico1
             int turno = 0;
             while (vitoria == false)
             {
-                int[] dados = {-1, -1, -1};
-
-                Console.WriteLine($"É o turno do jogador {Jogadores[turno].Cor}!");
+                Console.WriteLine($"É o turmo do jogador {Jogadores[turno].Cor}!");
                 Console.ReadLine();
 
                 /*
