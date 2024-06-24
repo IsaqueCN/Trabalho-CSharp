@@ -7,19 +7,12 @@ namespace TrabalhoPratico1
         Random Random = new Random();
 
         private string cor;
-        private string minhaFileira;
         private Peao[] meusPeoes = new Peao[4];
 
         public string Cor
         {
-            get { return cor; }
-            set { cor = value; }
-        }
-
-        public string MinhaFileira
-        {
-            get { return minhaFileira.ToLower(); }
-            set { minhaFileira = value.ToLower(); }
+            get { return cor.ToLower(); }
+            set { cor = value.ToLower(); }
         }
 
         public Peao[] MeusPeoes
@@ -30,13 +23,12 @@ namespace TrabalhoPratico1
 
         public Jogador(string fileira)
         {
-            MinhaFileira = fileira;
             cor = fileira;
 
-            MeusPeoes[0] = new Peao(this, MinhaFileira, "Peao 1");
-            MeusPeoes[1] = new Peao(this, MinhaFileira, "Peao 2");
-            MeusPeoes[2] = new Peao(this, MinhaFileira, "Peao 3");
-            MeusPeoes[3] = new Peao(this, MinhaFileira, "Peao 4");
+            MeusPeoes[0] = new Peao(this, cor, "Peao 1");
+            MeusPeoes[1] = new Peao(this, cor, "Peao 2");
+            MeusPeoes[2] = new Peao(this, cor, "Peao 3");
+            MeusPeoes[3] = new Peao(this, cor, "Peao 4");
         }
 
         public void AcionarDado(int numAleatorio)
@@ -122,7 +114,6 @@ namespace TrabalhoPratico1
     {
         private string nome;
         private Jogador meuJogador;
-        private string minhaFileira;
         private string fileiraAtual;
         private string cor;
         private bool comecou = false;
@@ -138,14 +129,9 @@ namespace TrabalhoPratico1
             get { return meuJogador; }
         }
 
-        public string MinhaFileira
-        {
-            get { return minhaFileira.ToLower(); }
-        }
-
         public string Cor
         {
-            get { return cor; }
+            get { return cor.ToLower(); }
         }
 
         public string FileiraAtual
@@ -165,22 +151,23 @@ namespace TrabalhoPratico1
         }
 
 
-        public Peao(Jogador Jogador, string Fileira, string Nome)
+        public Peao(Jogador Jogador, string Cor, string Nome)
         {
+            Cor = Cor.ToLower();
+
             meuJogador = Jogador;
-            cor = Fileira;
-            minhaFileira = Fileira;
-            FileiraAtual = Fileira;
+            cor = Cor;
+            FileiraAtual = Cor;
             nome = Nome;
         }
 
         public void Mover(int casas)
         {
-            if (Comecou == false)
+            if (Comecou == false && casas == 6)
             {
                 posicao = 0;
-                fileiraAtual = minhaFileira;
-                Console.WriteLine($"Peão {Nome} retirado do ínicio da fileira {MinhaFileira}");
+                fileiraAtual = cor;
+                Console.WriteLine($"Peão {Nome} foi retirado da prisão!");
             }
             else
             {
