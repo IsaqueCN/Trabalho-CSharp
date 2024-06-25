@@ -34,41 +34,41 @@ namespace TrabalhoPratico1
         }
 
         // Retorna null se não houver peões presos, senão retorna vetor e qtd de peões presos
-        public Peao[] PeoesPresos(out int contador)
+        public Peao[] PeoesPresos(out int qtdPeoesPresos)
         {
             Peao[] peoesPresos = new Peao[4];
 
-            contador = 0;
+            qtdPeoesPresos = 0;
             for (int i = 0; i < meusPeoes.Length; i++)
             {
-                if (meusPeoes[i].Comecou == false)
+                if (meusPeoes[i].EstaLivre == false)
                 {
-                    peoesPresos[contador] = meusPeoes[i];
-                    contador++;
+                    peoesPresos[qtdPeoesPresos] = meusPeoes[i];
+                    qtdPeoesPresos++;
                 }
             }
 
-            if (contador == 0)
+            if (qtdPeoesPresos == 0)
                 return null;
             else
                 return peoesPresos;
         }
 
-        public Peao[] PeoesLivres(out int contador)
+        public Peao[] PeoesLivres(out int qtdPeoesLivres)
         {
             Peao[] peoesLivres = new Peao[4];
 
-            contador = 0;
+            qtdPeoesLivres = 0;
             for (int i = 0; i < meusPeoes.Length; i++)
             {
-                if (meusPeoes[i].Comecou == true)
+                if (meusPeoes[i].EstaLivre == true)
                 {
-                    peoesLivres[contador] = meusPeoes[i];
-                    contador++;
+                    peoesLivres[qtdPeoesLivres] = meusPeoes[i];
+                    qtdPeoesLivres++;
                 }
             }
 
-            if (contador == 0)
+            if (qtdPeoesLivres == 0)
                 return null;
             else
                 return peoesLivres;
@@ -173,7 +173,6 @@ namespace TrabalhoPratico1
                 return null;
 
             dadosRolados[contador] = dado;
-            contador++;
             return dadosRolados;
         }
     }
@@ -183,7 +182,7 @@ namespace TrabalhoPratico1
         private Jogador meuJogador;
         private string fileiraAtual;
         private string cor;
-        private bool comecou = false;
+        private bool estaLivre = false;
         private int posicao = -1;
 
         public string Nome
@@ -206,10 +205,10 @@ namespace TrabalhoPratico1
             get { return fileiraAtual.ToLower(); }
             set { fileiraAtual = value.ToLower(); }
         }
-        public bool Comecou
+        public bool EstaLivre
         {
-            get { return comecou; }
-            set { comecou = value; }
+            get { return estaLivre; }
+            set { estaLivre = value; }
         }
         public int Posicao
         {
@@ -230,13 +229,13 @@ namespace TrabalhoPratico1
 
         public void Mover(int casas)
         {
-            if (Comecou == false)
+            if (EstaLivre == false)
             {
                 if (casas == 6)
                 {
                     posicao = 0;
                     fileiraAtual = cor;
-                    comecou = true;
+                    EstaLivre = true;
                     Console.WriteLine($"\n---> {Nome} {Cor} foi retirado da prisão!");
                 }
             }
