@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace TrabalhoPratico1
@@ -74,7 +75,7 @@ namespace TrabalhoPratico1
         }
         public void AcionarDado(int valor)
         {
-            Console.WriteLine($"\nDado com valor {valor} está sendo acionado!");
+            Console.WriteLine($"\nDado {valor}:");
 
             int decisao = 0;
 
@@ -91,10 +92,10 @@ namespace TrabalhoPratico1
 
                 if (peoesLivres != null)
                     Console.WriteLine("\t1 - Movimentar algum peão");
-                
+
                 for (int i = 0; i < qtdPeoesPresos; i++)
                 {
-                    Console.WriteLine($"\t{i+1+adicionar1} - Tirar {peoesPresos[i].Nome} da prisão");
+                    Console.WriteLine($"\t{i + 1 + adicionar1} - Tirar {peoesPresos[i].Nome} da prisão");
                 }
 
                 do
@@ -112,10 +113,9 @@ namespace TrabalhoPratico1
 
                 if (!(decisao == 1 && peoesLivres != null))
                 {
-                    Console.WriteLine($"Tirando {peoesPresos[decisao-1-adicionar1].Nome} da prisão!");
                     peoesPresos[decisao - 1 - adicionar1].Mover(6);
                     return;
-                } 
+                }
             }
 
             decisao = 0;
@@ -125,29 +125,37 @@ namespace TrabalhoPratico1
                 return;
             }
 
-            Console.WriteLine("Escolha qual peão você deseja movimentar: ");
-
-            for (int i = 0; i < qtdPeoesLivres; i++)
+            if (qtdPeoesLivres == 1)
             {
-                Console.WriteLine($"\t{i+1} - {peoesLivres[i].Nome}");
+                Console.WriteLine($"O dado será executado no {peoesLivres[0].Nome} por ser a única escolha!");
+                peoesLivres[0].Mover(valor);
             }
-
-            do
+            else
             {
-                try
-                {
-                    Console.Write("Escolha: ");
-                    decisao = int.Parse(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.WriteLine("Erro - Escolha um número de escolha.");
-                }
-            } while (decisao <= 0 || decisao > qtdPeoesLivres);
+                Console.WriteLine("Escolha qual peão você deseja movimentar: ");
 
-            Console.WriteLine($"Movimentando {peoesLivres[decisao-1].Nome}!");
+                for (int i = 0; i < qtdPeoesLivres; i++)
+                {
+                    Console.WriteLine($"\t{i + 1} - {peoesLivres[i].Nome}");
+                }
+
+                do
+                {
+                    try
+                    {
+                        Console.Write("Escolha: ");
+                        decisao = int.Parse(Console.ReadLine());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Erro - Escolha um número de escolha.");
+                    }
+                } while (decisao <= 0 || decisao > qtdPeoesLivres);
+
+                peoesLivres[decisao - 1].Mover(valor);
+            }
         }
-        
+
         // Retorna null se tiver pegado 6 três vezes, senão retorna um vetor com os dados rolados, no vetor 0 significa fim.
         public int[] RolarDado(out int contador)
         {
@@ -155,7 +163,7 @@ namespace TrabalhoPratico1
             contador = 0;
             int dado;
 
-            while ((dado = Random.Next(1,7)) == 6 && contador < 3)
+            while ((dado = Random.Next(1, 7)) == 6 && contador < 3)
             {
                 dadosRolados[contador] = dado;
                 contador++;
@@ -229,20 +237,20 @@ namespace TrabalhoPratico1
                     posicao = 0;
                     fileiraAtual = cor;
                     comecou = true;
-                    Console.WriteLine($"Peão {Nome} foi retirado da prisão!");
+                    Console.WriteLine($"\n---> {Nome} {Cor} foi retirado da prisão!");
                 }
             }
             else
             {
                 int POS = posicao % 13;
-                
+
                 if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
-                    Console.WriteLine($"Peão {Nome} moveu para a fileira {fileiraAtual}!");
+                    Console.WriteLine($"\n---> {Nome} {Cor} moveu para a fileira {fileiraAtual}!");
                 }
                 posicao += casas;
-                Console.WriteLine($"Peão {Nome} está agora na posição {posicao}");
+                Console.WriteLine($"\n---> {Nome} {Cor} moveu para a posição {posicao}!");
             }
         }
     }
@@ -263,7 +271,7 @@ namespace TrabalhoPratico1
         }
     }
     class Jogo
-    {  
+    {
         static void Main(string[] args)
         {
             bool vitoria = false;
@@ -295,7 +303,7 @@ namespace TrabalhoPratico1
             {
                 Console.Clear();
                 Jogador jogadorTurno = Jogadores[turno];
-                Console.WriteLine($"\nÉ o turno do jogador {jogadorTurno.Cor}!");
+                Console.WriteLine($"É o turno do jogador {jogadorTurno.Cor}!");
 
                 int qtdDados;
                 int[] dados = jogadorTurno.RolarDado(out qtdDados);
@@ -303,7 +311,8 @@ namespace TrabalhoPratico1
                 if (dados == null)
                 {
                     Console.WriteLine($"Jogador {jogadorTurno.Cor} rolou 6 três vezes e passou a vez!");
-                } else
+                }
+                else
                 {
                     Console.Write($"Jogador {jogadorTurno.Cor} tirou os seguintes dados: ");
 
@@ -312,6 +321,7 @@ namespace TrabalhoPratico1
                         Console.Write($"{dados[i]} ");
                     }
 
+                    Console.WriteLine();
                     FazerJogada(jogadorTurno, dados, qtdDados);
                 }
 
@@ -319,7 +329,8 @@ namespace TrabalhoPratico1
                 if (turno + 1 >= qtdJogadores)
                 {
                     turno = 0;
-                } else
+                }
+                else
                 {
                     turno++;
                 }
@@ -330,37 +341,45 @@ namespace TrabalhoPratico1
         {
             int contador = qtdDados;
 
-            for (int i = 0; i < qtdDados; i++)
+            for (int i = 0; contador > 0; i++)
             {
-                Console.WriteLine($"\n\nJogador {jogador.Cor}, resta dados para você usar:");
-                for (int j = 0; j < contador; j++)
+                if (contador == 1)
                 {
-                    Console.WriteLine($"\t{j + 1} - Dado {dados[j]}");
+                    Console.WriteLine($"\nPor ser o único dado disponível, o dado {dados[0]} está sendo acionado imediatamente!");
+                    jogador.AcionarDado(dados[0]);
+                    contador--;
                 }
-
-                int decisao = 0;
-
-                do
+                else
                 {
-                    try
+                    Console.WriteLine($"\nJogador {jogador.Cor}, resta usar {contador} dados:");
+                    for (int j = 0; j < contador; j++)
                     {
-                        Console.Write("Escolha: ");
-                        decisao = int.Parse(Console.ReadLine());
+                        Console.WriteLine($"\t{j + 1} - Dado {dados[j]}");
                     }
-                    catch
+
+                    int decisao = 0;
+
+                    do
                     {
-                        Console.WriteLine("Erro - Digite o número do dado que será usado.");
+                        try
+                        {
+                            Console.Write("Escolha: ");
+                            decisao = int.Parse(Console.ReadLine());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Erro - Digite o número do dado que será usado.");
+                        }
+                    } while (decisao <= 0 || decisao > contador);
+
+                    jogador.AcionarDado(dados[decisao - 1]);
+
+                    for (int k = decisao; k < dados.Length - i; k++)
+                    {
+                        dados[k - 1] = dados[k];
                     }
-                } while (decisao <= 0 || decisao > qtdDados);
-
-                jogador.AcionarDado(dados[decisao - 1]);
-
-                for (int k = decisao; k < dados.Length - i; k++)
-                {
-                    dados[k - 1] = dados[k];
+                    contador--;
                 }
-                contador--;
-
             }
             Console.ReadLine();
         }
