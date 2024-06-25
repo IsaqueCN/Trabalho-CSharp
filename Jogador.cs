@@ -175,6 +175,7 @@ namespace TrabalhoPratico1
                 return null;
 
             dadosRolados[contador] = dado;
+            contador++;
             return dadosRolados;
         }
     }
