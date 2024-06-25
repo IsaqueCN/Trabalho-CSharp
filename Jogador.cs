@@ -77,6 +77,7 @@ namespace TrabalhoPratico1
         }
         public void AcionarDado(int valor)
         {
+            Relatorio.Escrever($"\nO dado {valor} foi acionado:");
             Console.WriteLine($"\nDado {valor}:");
 
             int decisao = 0;
@@ -124,6 +125,7 @@ namespace TrabalhoPratico1
             if (peoesLivres == null)
             {
                 Console.WriteLine("Você ainda não pode fazer nada com este dado!");
+                Relatorio.Escrever("Não foi possivel usar o dado.");
                 return;
             }
 

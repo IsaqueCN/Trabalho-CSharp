@@ -59,6 +59,7 @@ namespace TrabalhoPratico1
 
         public void Mover(int casas)
         {
+            string saida = "";
             if (EstaLivre == false)
             {
                 if (casas == 6)
@@ -66,20 +67,27 @@ namespace TrabalhoPratico1
                     posicao = 0;
                     fileiraAtual = cor;
                     EstaLivre = true;
-                    Console.WriteLine($"\n---> {Nome} {Cor} foi retirado da prisão!");
+                    saida = $"---> {Nome} {Cor} foi retirado da prisão!";
+                    Console.WriteLine($"\n{saida}");
+                    Relatorio.Escrever(saida);
                 }
             }
             else
             {
+                
                 int POS = posicao % 13;
 
                 if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
-                    Console.WriteLine($"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!");
+                    saida = $"--> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
+                    Relatorio.Escrever(saida);
+                    Console.WriteLine($"\n{saida}");
                 }
                 posicao += casas;
-                Console.WriteLine($"\n---> {Nome} {Cor} moveu para a posição {posicao}!");
+                saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
+                Relatorio.Escrever(saida);
+                Console.WriteLine($"\n{saida}");
             }
         }
     }

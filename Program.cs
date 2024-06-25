@@ -13,6 +13,7 @@ namespace TrabalhoPratico1
 
             int qtdJogadores = 0;
             Console.WriteLine("Bem vindo ao jogo Ludo!\n");
+            Relatorio.Comecar();
 
             do
             {
@@ -26,6 +27,7 @@ namespace TrabalhoPratico1
                     Console.WriteLine("Erro - Digite o número 2 ou 4.");
                 }
             } while (qtdJogadores != 2 && qtdJogadores != 4);
+            Relatorio.Escrever($"Haverá {qtdJogadores} jogadores");
 
             Jogadores = DefinirJogadores(qtdJogadores);
 
@@ -38,6 +40,7 @@ namespace TrabalhoPratico1
                 Console.Clear();
                 Jogador jogadorTurno = Jogadores[turno];
                 Console.WriteLine($"É o turno do jogador {jogadorTurno.Cor}!");
+                Relatorio.EscreverTurno(jogadorTurno.Cor);
 
                 int qtdDados;
                 int[] dados = jogadorTurno.RolarDado(out qtdDados);
@@ -45,17 +48,19 @@ namespace TrabalhoPratico1
                 if (dados == null)
                 {
                     Console.WriteLine($"Jogador {jogadorTurno.Cor} rolou 6 três vezes e passou a vez!");
+                    Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
                 }
                 else
                 {
-                    Console.Write($"Jogador {jogadorTurno.Cor} tirou os seguintes dados: ");
+                    string saida = "";
+                    saida += $"Jogador {jogadorTurno.Cor} tirou os seguintes dados: ";
 
                     for (int i = 0; i < qtdDados; i++)
                     {
-                        Console.Write($"{dados[i]} ");
+                        saida += $"{dados[i]} ";
                     }
-
-                    Console.WriteLine();
+                    Relatorio.Escrever(saida);
+                    Console.WriteLine($"{saida}\n");
                     FazerJogada(jogadorTurno, dados, qtdDados);
                 }
 
@@ -161,6 +166,7 @@ namespace TrabalhoPratico1
                 if (qtdJogadores == 4)
                 {
                     Jogadores[i] = new Jogador(coresAceitas[decisao - 1].ToLower());
+                    Relatorio.Escrever($"O {i}° escolheu a cor {coresAceitas[decisao - 1]}");
                 }
                 else
                 {
@@ -170,6 +176,7 @@ namespace TrabalhoPratico1
 
                     Jogadores[0] = new Jogador(cor1);
                     Jogadores[1] = new Jogador(cor2);
+                    Relatorio.Escrever($"O 1° jogador escolheu a cor {coresEscolhidas[0]}\nO {2}° jogador escolheu a cor {coresEscolhidas[2]}");
                     break;
                 }
 
