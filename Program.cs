@@ -247,7 +247,7 @@ namespace TrabalhoPratico1
                 if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
-                    Console.WriteLine($"\n---> {Nome} {Cor} moveu para a fileira {fileiraAtual}!");
+                    Console.WriteLine($"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!");
                 }
                 posicao += casas;
                 Console.WriteLine($"\n---> {Nome} {Cor} moveu para a posição {posicao}!");
