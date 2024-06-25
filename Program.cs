@@ -6,11 +6,16 @@ namespace TrabalhoPratico1
 {         
     class Jogo
     {
+        private static Jogador[] jogadores = new Jogador[4];
+
+        public static Jogador[] Jogadores
+        {
+            get { return jogadores; }
+            set { jogadores = value; }
+        }
         static void Main(string[] args)
         {
             bool vitoria = false;
-            Jogador[] Jogadores = new Jogador[4];
-
             int qtdJogadores = 0;
             Console.WriteLine("Bem vindo ao jogo Ludo!\n");
             Relatorio.Comecar();

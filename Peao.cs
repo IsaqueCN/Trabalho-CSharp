@@ -13,8 +13,9 @@ namespace TrabalhoPratico1
         private string fileiraAtual;
         private string cor;
         private bool estaLivre = false;
+        private bool estaSeguro = true;
         private int posicao = -1;
-
+        
         public string Nome
         {
             get { return nome; }
@@ -39,6 +40,11 @@ namespace TrabalhoPratico1
         {
             get { return estaLivre; }
             set { estaLivre = value; }
+        }
+        public bool EstaSeguro
+        {
+            get { return estaSeguro; }
+            set { estaSeguro = value; }
         }
         public int Posicao
         {
@@ -68,8 +74,6 @@ namespace TrabalhoPratico1
                     fileiraAtual = cor;
                     EstaLivre = true;
                     saida = $"---> {Nome} {Cor} foi retirado da prisão!";
-                    Console.WriteLine($"\n{saida}");
-                    Relatorio.Escrever(saida);
                 }
             }
             else
@@ -86,9 +90,23 @@ namespace TrabalhoPratico1
                 }
                 posicao += casas;
                 saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
-                Relatorio.Escrever(saida);
-                Console.WriteLine($"\n{saida}");
             }
+
+            if (Tabuleiro.VerificarCasaSegura(posicao))
+            {
+                if (estaSeguro == false)
+                {
+                    EstaSeguro = true;
+                    saida += $"\n---> {Nome} {Cor} agora está seguro!";
+                }
+            } else if (estaSeguro == true)
+            {
+                EstaSeguro = false;
+                saida += $"\n---> {Nome} {Cor} não está mais seguro!";
+            }
+
+            Console.WriteLine($"\n{saida}");
+            Relatorio.Escrever(saida);
         }
     }
 }
