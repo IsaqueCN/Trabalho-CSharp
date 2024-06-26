@@ -107,14 +107,15 @@ namespace TrabalhoPratico1
                 if (terminou == false)
                 {
                     saida = VerificarFinalizou(saida);
-                    if (terminou == true)
+                    if (estaFinalizando == true)
                     {
                         Console.WriteLine($"\n{saida}");
                         Relatorio.Escrever(saida);
                         return;
                     }
                 }
-                else if (POS + casas >= 13)
+
+                if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
                     saida += $"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
