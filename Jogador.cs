@@ -56,24 +56,29 @@ namespace TrabalhoPratico1
                 return peoesPresos;
         }
 
-        public Peao[] PeoesLivres(out int qtdPeoesLivres)
+        public Peao[] PeoesMoviveis(int valorDado, out int qtdPeoesMoviveis)
         {
-            Peao[] peoesLivres = new Peao[4];
+            Peao[] peoesMoviveis = new Peao[4];
 
-            qtdPeoesLivres = 0;
+            qtdPeoesMoviveis = 0;
             for (int i = 0; i < meusPeoes.Length; i++)
             {
                 if (meusPeoes[i].EstaLivre == true)
                 {
-                    peoesLivres[qtdPeoesLivres] = meusPeoes[i];
-                    qtdPeoesLivres++;
+                    int restamParaGanhar = 56 - (meusPeoes[i].Posicao + valorDado);
+
+                    if (restamParaGanhar >= 0)
+                    {
+                        peoesMoviveis[qtdPeoesMoviveis] = meusPeoes[i];
+                        qtdPeoesMoviveis++;
+                    } 
                 }
             }
 
-            if (qtdPeoesLivres == 0)
+            if (qtdPeoesMoviveis == 0)
                 return null;
             else
-                return peoesLivres;
+                return peoesMoviveis;
         }
         public void AcionarDado(int valor)
         {
@@ -85,15 +90,15 @@ namespace TrabalhoPratico1
             int qtdPeoesPresos;
             Peao[] peoesPresos = PeoesPresos(out qtdPeoesPresos);
             int qtdPeoesLivres;
-            Peao[] peoesLivres = PeoesLivres(out qtdPeoesLivres);
-            int adicionar1 = (peoesLivres == null) ? 0 : 1;
+            Peao[] peoesMoviveis = PeoesMoviveis(valor, out qtdPeoesLivres);
+            int adicionar1 = (peoesMoviveis == null) ? 0 : 1;
 
             if (valor == 6 && peoesPresos != null)
             {
 
                 Console.WriteLine("Ações possíveis com este dado:");
 
-                if (peoesLivres != null)
+                if (peoesMoviveis != null)
                     Console.WriteLine("\t1 - Movimentar algum peão");
 
                 for (int i = 0; i < qtdPeoesPresos; i++)
@@ -114,7 +119,7 @@ namespace TrabalhoPratico1
                     }
                 } while (decisao <= 0 || decisao > qtdPeoesPresos + adicionar1);
 
-                if (!(decisao == 1 && peoesLivres != null))
+                if (!(decisao == 1 && peoesMoviveis != null))
                 {
                     peoesPresos[decisao - 1 - adicionar1].Mover(6);
                     return;
@@ -122,7 +127,7 @@ namespace TrabalhoPratico1
             }
 
             decisao = 0;
-            if (peoesLivres == null)
+            if (peoesMoviveis == null)
             {
                 Console.WriteLine("Você ainda não pode fazer nada com este dado!");
                 Relatorio.Escrever("Não foi possivel usar o dado.");
@@ -131,8 +136,8 @@ namespace TrabalhoPratico1
 
             if (qtdPeoesLivres == 1)
             {
-                Console.WriteLine($"O dado será executado no {peoesLivres[0].Nome} por ser a única escolha!");
-                peoesLivres[0].Mover(valor);
+                Console.WriteLine($"O dado será executado no {peoesMoviveis[0].Nome} por ser a única escolha!");
+                peoesMoviveis[0].Mover(valor);
             }
             else
             {
@@ -140,7 +145,7 @@ namespace TrabalhoPratico1
 
                 for (int i = 0; i < qtdPeoesLivres; i++)
                 {
-                    Console.WriteLine($"\t{i + 1} - {peoesLivres[i].Nome}");
+                    Console.WriteLine($"\t{i + 1} - {peoesMoviveis[i].Nome}");
                 }
 
                 do
@@ -156,7 +161,7 @@ namespace TrabalhoPratico1
                     }
                 } while (decisao <= 0 || decisao > qtdPeoesLivres);
 
-                peoesLivres[decisao - 1].Mover(valor);
+                peoesMoviveis[decisao - 1].Mover(valor);
             }
         }
 

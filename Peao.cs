@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace TrabalhoPratico1
         private string cor;
         private bool estaLivre = false;
         private bool estaSeguro = true;
+        private bool estaFinalizando = false;
+        private bool terminou = false;
         private int posicao = -1;
         
         public string Nome
@@ -45,6 +48,16 @@ namespace TrabalhoPratico1
         {
             get { return estaSeguro; }
             set { estaSeguro = value; }
+        }
+        public bool EstaFinalizando
+        {
+            get { return estaFinalizando; }
+            set { estaFinalizando = value; }
+        }
+        public bool Terminou
+        {
+            get { return terminou; }
+            set { terminou = value; }
         }
         public int Posicao
         {
@@ -87,16 +100,25 @@ namespace TrabalhoPratico1
             }
             else
             {
-                
                 int POS = posicao % 13;
+                posicao += casas;
 
-                saida = $"---> {Nome} {Cor} moveu para a posição {posicao + casas}!";
-                if (POS + casas >= 13)
+                saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
+                if (terminou == false)
+                {
+                    saida = VerificarFinalizou(saida);
+                    if (terminou == true)
+                    {
+                        Console.WriteLine($"\n{saida}");
+                        Relatorio.Escrever(saida);
+                        return;
+                    }
+                }
+                else if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
                     saida += $"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
                 }
-                posicao += casas;
             }
             Console.WriteLine($"\n{saida}");
             Relatorio.Escrever(saida);
@@ -141,6 +163,33 @@ namespace TrabalhoPratico1
                     PeaoCapturado.Prender();
                 }
             }
+        }
+
+        public string VerificarFinalizou(string saida)
+        {
+            int restamParaGanhar = 56 - posicao;
+            if (posicao >= 51)
+            {
+                if (estaFinalizando == false)
+                {
+                    saida += $"\n---> {Nome} {Cor} está agora na RETA FINAL!!";
+                    saida += $"\n---> Faltam {restamParaGanhar} casas para o {Nome} {Cor} terminar";
+                    estaFinalizando = true;
+                }
+                else
+                {
+                    if (restamParaGanhar == 0)
+                    {
+                        saida += $"\n---> {Nome} {Cor} CHEGOU AO FINAL!!";
+                        terminou = true;
+                    }
+                    else
+                    {
+                        saida += $"\n---> Faltam {restamParaGanhar} casas para o {Nome} {Cor} terminar";
+                    }
+                }
+            }
+            return saida;
         }
     }
 }
