@@ -40,7 +40,7 @@ namespace TrabalhoPratico1
             if (peao.EstaSeguro == true)
                 return null;
 
-            for (int i = 0; i < Jogo.Jogadores.Length; i++)
+            for (int i = 0; i < Jogo.QtdJogadores; i++)
             {
                 Jogador jogador = Jogo.Jogadores[i];
                 if (peao.Cor == jogador.Cor)
@@ -48,8 +48,12 @@ namespace TrabalhoPratico1
 
                 for (int j = 0; j < jogador.MeusPeoes.Length; j++)
                 {
-                    if (jogador.MeusPeoes[j].Posicao % 13 == (POS % 13) && jogador.MeusPeoes[j].EstaSeguro == false)
+                    if (jogador.MeusPeoes[j].Posicao % 13 == (POS % 13) &&
+                        jogador.MeusPeoes[j].EstaSeguro == false &&
+                        jogador.MeusPeoes[j].FileiraAtual == peao.FileiraAtual)
+                    {
                         return jogador.MeusPeoes[j];
+                    }
                 }
             }
             return null;

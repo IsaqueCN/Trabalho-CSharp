@@ -63,6 +63,15 @@ namespace TrabalhoPratico1
             nome = Nome;
         }
 
+        public void Prender()
+        {
+            posicao = 0;
+            estaLivre = false;
+            fileiraAtual = cor;
+            string saida = $"---> {Nome} {Cor} voltou para a prisão";
+            Console.WriteLine($"{saida}");
+            Relatorio.Escrever(saida);
+        }
         public void Mover(int casas)
         {
             string saida = "";
@@ -81,32 +90,57 @@ namespace TrabalhoPratico1
                 
                 int POS = posicao % 13;
 
+                saida = $"---> {Nome} {Cor} moveu para a posição {posicao + casas}!";
                 if (POS + casas >= 13)
                 {
                     fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
-                    saida = $"--> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
-                    Relatorio.Escrever(saida);
-                    Console.WriteLine($"\n{saida}");
+                    saida += $"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
                 }
                 posicao += casas;
-                saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
             }
+            Console.WriteLine($"\n{saida}");
+            Relatorio.Escrever(saida);
 
+            DefinirSeguranca(posicao);
+            TentarCaptura(posicao);
+        }
+
+        public void DefinirSeguranca(int posicao)
+        {
             if (Tabuleiro.VerificarCasaSegura(posicao))
             {
                 if (estaSeguro == false)
                 {
                     EstaSeguro = true;
-                    saida += $"\n---> {Nome} {Cor} agora está seguro!";
+                    string saida = $"---> {Nome} {Cor} agora está seguro!";
+                    Console.WriteLine(saida);
+                    Relatorio.Escrever(saida);
                 }
-            } else if (estaSeguro == true)
+            }
+            else if (estaSeguro == true)
             {
                 EstaSeguro = false;
-                saida += $"\n---> {Nome} {Cor} não está mais seguro!";
+                string saida = $"---> {Nome} {Cor} não está mais seguro!";
+                Console.WriteLine(saida);
+                Relatorio.Escrever(saida);
             }
+        }
 
-            Console.WriteLine($"\n{saida}");
-            Relatorio.Escrever(saida);
+        public void TentarCaptura(int posicao)
+        {
+            string saida = "";
+            if (estaSeguro == false)
+            {
+                Peao PeaoCapturado = Tabuleiro.VerificarCaptura(this);
+                if (PeaoCapturado != null)
+                {
+                    saida += $"---> {Nome} {Cor} capturou o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!";
+                    Console.WriteLine(saida);
+                    Relatorio.Escrever(saida);
+
+                    PeaoCapturado.Prender();
+                }
+            }
         }
     }
 }
