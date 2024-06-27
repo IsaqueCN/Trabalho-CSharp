@@ -9,13 +9,14 @@ namespace TrabalhoPratico1
     {
         private static int contadorTurno = 1;
         private static string diretorio = "Relatorio_JogoLudo.txt";
+
+        private static StreamWriter writer
+        {
+            get { return new StreamWriter(diretorio, true, Encoding.UTF8); }
+        }
         public static string Diretorio
         {
             get { return diretorio; }
-        }
-        public static StreamWriter writer
-        {
-            get { return new StreamWriter(diretorio, true, Encoding.UTF8); }
         }
 
         public static void Comecar()

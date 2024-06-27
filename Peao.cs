@@ -78,11 +78,11 @@ namespace TrabalhoPratico1
 
         public void Prender()
         {
-            posicao = 0;
+            posicao = -1;
             estaLivre = false;
             fileiraAtual = cor;
             string saida = $"---> {Nome} {Cor} voltou para a prisão";
-            Console.WriteLine($"{saida}");
+            Console.WriteLine(saida);
             Relatorio.Escrever(saida);
         }
         public void Mover(int casas)
