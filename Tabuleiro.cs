@@ -10,10 +10,11 @@ namespace TrabalhoPratico1
 {
     internal class Tabuleiro
     {
-        public static string EncontrarProximaFileira(string fileira)
+        //Encontrar próxima fileira
+        public static string EncontrarProximaFileira(string nomeDaFileira)
         {
-            fileira = fileira.ToLower();
-            switch (fileira)
+            nomeDaFileira = nomeDaFileira.ToLower();
+            switch (nomeDaFileira)
             {
                 case "amarelo": return "azul";
                 case "azul": return "vermelho";
@@ -25,8 +26,12 @@ namespace TrabalhoPratico1
 
         public static bool VerificarCasaSegura (int posicao)
         {
+            //Obtem a posição do peão na sua fileira atual
             int POS = posicao % 13;
 
+            //0 - começo da fileira
+            //8 - estrela
+            // >=51 reta final
             if (POS == 0 || POS == 8 || posicao >= 51) 
                 return true;
             else
