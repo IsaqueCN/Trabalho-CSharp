@@ -74,6 +74,15 @@ namespace TrabalhoPratico1
                     Relatorio.Escrever(saida);
                     Console.WriteLine($"{saida}\n");
                     FazerJogada(jogadorTurno, dados, qtdDados);
+
+                    Jogador JogadorVitorioso = VerificarVitoria();
+                    if (JogadorVitorioso != null)
+                    {
+                        vitoria = true;
+                        string MensagemVitoria = $"\n======== O JOGADOR {JogadorVitorioso.Cor.ToUpper()} VENCEU! ========";
+                        Console.WriteLine(MensagemVitoria);
+                        Relatorio.Escrever(MensagemVitoria);
+                    }
                 }
 
                 // Mudar para o próximo turno
@@ -87,6 +96,28 @@ namespace TrabalhoPratico1
                 }
             }
             Console.ReadLine();
+        }
+
+        static Jogador VerificarVitoria()
+        {
+            for (int i = 0; i < qtdJogadores; i++)
+            {
+                bool terminouJogador = true;
+                for (int j = 0; j < jogadores[i].MeusPeoes.Length; j++)
+                {
+                    if (jogadores[i].MeusPeoes[j].Terminou == false)
+                    {
+                        terminouJogador = false;
+                        break;
+                    }
+                }
+
+                if (terminouJogador == true)
+                {
+                    return jogadores[i];
+                }
+            }
+            return null;
         }
         static void FazerJogada(Jogador jogador, int[] dados, int qtdDados)
         {
