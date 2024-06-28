@@ -8,6 +8,8 @@ namespace TrabalhoPratico1
     {
         private static Jogador[] jogadores = new Jogador[4];
         private static int qtdJogadores = 0;
+        private static int qtdDadosAtuais = 0;
+        private static int[] dadosAtuais = null;
 
         public static Jogador[] Jogadores
         {
@@ -21,6 +23,17 @@ namespace TrabalhoPratico1
             set { qtdJogadores = value; }
         }
 
+        public static int QtdDadosAtuais
+        {
+            get { return qtdDadosAtuais; }
+            set { qtdDadosAtuais = value; }
+        }
+
+        public static int[] DadosAtuais
+        {
+            get { return dadosAtuais; }
+            set { dadosAtuais = value; }
+        }
         static void Main(string[] args)
         {
             bool vitoria = false;
@@ -31,14 +44,14 @@ namespace TrabalhoPratico1
             {
                 try
                 {
-                    Console.Write("Digite quantos jogadores irão jogar (Digite 2 ou 4): ");
+                    Console.Write("Digite quantos jogadores irão jogar (Digite 2, 3 ou 4): ");
                     qtdJogadores = int.Parse(Console.ReadLine());
                 }
                 catch
                 {
-                    Console.WriteLine("Erro - Digite o número 2 ou 4.");
+                    Console.WriteLine("Erro - Digite um número de 2 a 4.");
                 }
-            } while (qtdJogadores != 2 && qtdJogadores != 4);
+            } while (qtdJogadores < 2 || qtdJogadores > 4);
             Relatorio.Escrever($"Haverá {qtdJogadores} jogadores");
 
             Jogadores = DefinirJogadores(qtdJogadores);
@@ -49,6 +62,9 @@ namespace TrabalhoPratico1
 
             while (vitoria == false)
             {
+                dadosAtuais = null;
+                qtdDadosAtuais = 0;
+
                 Console.Clear();
                 Jogador jogadorTurno = Jogadores[turno];
                 Console.WriteLine($"É o turno do jogador {jogadorTurno.Cor}!");
@@ -62,6 +78,8 @@ namespace TrabalhoPratico1
                 {
                     Console.WriteLine($"Jogador {jogadorTurno.Cor} rolou 6 três vezes e passou a vez!");
                     Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
+                    Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {jogadorTurno.Cor} rolou 6 três vezes e perdeu a vez!");
+                    Console.ReadLine();
                 }
                 else
                 {
@@ -74,7 +92,9 @@ namespace TrabalhoPratico1
                     }
                     Relatorio.Escrever(saida);
                     Console.WriteLine($"{saida}\n");
-                    FazerJogada(jogadorTurno, dados, qtdDados);
+                    dadosAtuais = dados;
+                    qtdDadosAtuais = qtdDados;
+                    FazerJogada(jogadorTurno);
 
                     Jogador JogadorVitorioso = VerificarVitoria();
                     if (JogadorVitorioso != null)
@@ -123,24 +143,22 @@ namespace TrabalhoPratico1
             }
             return null;
         }
-        static void FazerJogada(Jogador jogador, int[] dados, int qtdDados)
+        static void FazerJogada(Jogador jogador)
         {
-            int contador = qtdDados;
-
-            for (int i = 0; contador > 0; i++)
+            for (int i = 0; qtdDadosAtuais > 0; i++)
             {
-                if (contador == 1)
+                if (qtdDadosAtuais == 1)
                 {
-                    Console.WriteLine($"\nPor ser o único dado disponível, o dado {dados[0]} está sendo acionado imediatamente!");
-                    jogador.AcionarDado(dados[0]);
-                    contador--;
+                    Console.WriteLine($"\nPor ser o único dado disponível, o dado {dadosAtuais[0]} está sendo acionado imediatamente!");
+                    jogador.AcionarDado(dadosAtuais[0]);
+                    qtdDadosAtuais--;
                 }
                 else
                 {
-                    Console.WriteLine($"\nJogador {jogador.Cor}, resta usar {contador} dados:");
-                    for (int j = 0; j < contador; j++)
+                    Console.WriteLine($"\nJogador {jogador.Cor}, resta usar {qtdDadosAtuais} dados:");
+                    for (int j = 0; j < qtdDadosAtuais; j++)
                     {
-                        Console.WriteLine($"\t{j + 1} - Dado {dados[j]}");
+                        Console.WriteLine($"\t{j + 1} - Dado {dadosAtuais[j]}");
                     }
 
                     int decisao = 0;
@@ -156,15 +174,15 @@ namespace TrabalhoPratico1
                         {
                             Console.WriteLine("Erro - Digite o número do dado que será usado.");
                         }
-                    } while (decisao <= 0 || decisao > contador);
+                    } while (decisao <= 0 || decisao > qtdDadosAtuais);
 
-                    jogador.AcionarDado(dados[decisao - 1]);
+                    jogador.AcionarDado(dadosAtuais[decisao - 1]);
 
-                    for (int k = decisao; k < dados.Length - i; k++)
+                    for (int k = decisao; k < dadosAtuais.Length - i; k++)
                     {
-                        dados[k - 1] = dados[k];
+                        dadosAtuais[k - 1] = dadosAtuais[k];
                     }
-                    contador--;
+                    qtdDadosAtuais--;
                 }
             }
             Console.ReadLine();
@@ -175,7 +193,7 @@ namespace TrabalhoPratico1
 
             string[] coresAceitas;
 
-            if (qtdJogadores == 4)
+            if (qtdJogadores != 2)
                 coresAceitas = new string[] { "Amarelo", "Azul", "Vermelho", "Verde" };
             else
                 coresAceitas = new string[] { "Amarelo e Vermelho", "Vermelho e Amarelo", "Verde e Azul", "Azul e Verde" };
@@ -190,7 +208,7 @@ namespace TrabalhoPratico1
                         Console.Clear();
                         Console.WriteLine("Bem vindo ao jogo Ludo!\n");
                         Console.WriteLine($"Você irá jogar com {qtdJogadores} jogadores!");
-                        Console.WriteLine($"\n\tDigite a cor do {i + 1}° {((qtdJogadores != 4) ? "e 2° " : "")}jogador:\n");
+                        Console.WriteLine($"\n\tDigite a cor do {i + 1}° {((qtdJogadores == 2) ? "e 2° " : "")}jogador:\n");
 
                         for (int j = 0; j < coresAceitas.Length; j++)
                         {
@@ -210,10 +228,10 @@ namespace TrabalhoPratico1
                     }
                 } while (decisao <= 0 || decisao > 4 - i);
 
-                if (qtdJogadores == 4)
+                if (qtdJogadores != 2)
                 {
                     Jogadores[i] = new Jogador(coresAceitas[decisao - 1].ToLower());
-                    Relatorio.Escrever($"O {i}° escolheu a cor {coresAceitas[decisao - 1]}");
+                    Relatorio.Escrever($"O {i+1}° escolheu a cor {coresAceitas[decisao - 1]}");
                 }
                 else
                 {

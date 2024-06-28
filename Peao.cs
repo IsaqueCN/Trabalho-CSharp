@@ -187,7 +187,7 @@ namespace TrabalhoPratico1
                     {
                         saida += $"\n---> {Nome} {Cor} CHEGOU AO FINAL!!";
                         Relatorio.AdicionarMomentoImportante($"***> {Nome} {Cor} CHEGOU AO FINAL!!");
-                        terminou = true;
+                        terminou = true;  
                     }
                     else
                     {
