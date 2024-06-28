@@ -9,7 +9,7 @@ namespace TrabalhoPratico1
         private static Jogador[] jogadores = new Jogador[4];
         private static int qtdJogadores = 0;
         private static int qtdDadosAtuais = 0;
-        private static int[] dadosAtuais = null;
+        private static int[] dadosAtuais = new int[50];
 
         public static Jogador[] Jogadores
         {
@@ -62,9 +62,7 @@ namespace TrabalhoPratico1
 
             while (vitoria == false)
             {
-                dadosAtuais = null;
                 qtdDadosAtuais = 0;
-
                 Console.Clear();
                 Jogador jogadorTurno = Jogadores[turno];
                 Console.WriteLine($"É o turno do jogador {jogadorTurno.Cor}!");
@@ -83,17 +81,7 @@ namespace TrabalhoPratico1
                 }
                 else
                 {
-                    string saida = "";
-                    saida += $"Jogador {jogadorTurno.Cor} tirou os seguintes dados: ";
-
-                    for (int i = 0; i < qtdDados; i++)
-                    {
-                        saida += $"{dados[i]} ";
-                    }
-                    Relatorio.Escrever(saida);
-                    Console.WriteLine($"{saida}\n");
-                    dadosAtuais = dados;
-                    qtdDadosAtuais = qtdDados;
+                    AdicionarDados(dados, qtdDados, jogadorTurno);
                     FazerJogada(jogadorTurno);
 
                     Jogador JogadorVitorioso = VerificarVitoria();
@@ -152,6 +140,7 @@ namespace TrabalhoPratico1
                     Console.WriteLine($"\nPor ser o único dado disponível, o dado {dadosAtuais[0]} está sendo acionado imediatamente!");
                     jogador.AcionarDado(dadosAtuais[0]);
                     qtdDadosAtuais--;
+                    DadosAtuais[0] = DadosAtuais[1];
                 }
                 else
                 {
@@ -177,8 +166,7 @@ namespace TrabalhoPratico1
                     } while (decisao <= 0 || decisao > qtdDadosAtuais);
 
                     jogador.AcionarDado(dadosAtuais[decisao - 1]);
-
-                    for (int k = decisao; k < dadosAtuais.Length - i; k++)
+                    for (int k = decisao; k < qtdDadosAtuais; k++)
                     {
                         dadosAtuais[k - 1] = dadosAtuais[k];
                     }
@@ -186,6 +174,23 @@ namespace TrabalhoPratico1
                 }
             }
             Console.ReadLine();
+        }
+        
+        public static void AdicionarDados(int[] dados, int qtdDadosRolados, Jogador jogadorTurno)
+        {
+            string saida = "";
+            saida += $"\nJogador {jogadorTurno.Cor} tirou os seguintes dados: ";
+
+            for (int i = 0; i < qtdDadosRolados; i++)
+            {
+                saida += $"{dados[i]} ";
+                DadosAtuais[qtdDadosAtuais] = dados[i];
+                qtdDadosAtuais++;
+            }
+
+            Relatorio.Escrever(saida);
+            Console.WriteLine($"{saida}\n");
+
         }
         static Jogador[] DefinirJogadores(int qtdJogadores)
         {

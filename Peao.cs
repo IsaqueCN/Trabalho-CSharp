@@ -111,6 +111,13 @@ namespace TrabalhoPratico1
                     {
                         Console.WriteLine($"\n{saida}");
                         Relatorio.Escrever(saida);
+
+                        if (terminou == true)
+                        {
+                            int qtdDados;
+                            int[] dados = meuJogador.RolarDado(out qtdDados);
+                            Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                        }
                         return;
                     }
                 }
@@ -163,6 +170,10 @@ namespace TrabalhoPratico1
                     Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} CAPTUROU o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!");
 
                     PeaoCapturado.Prender();
+
+                    int qtdDados;
+                    int[] dados = meuJogador.RolarDado(out qtdDados);
+                    Jogo.AdicionarDados(dados, qtdDados, meuJogador);
                 }
             }
         }
@@ -172,7 +183,7 @@ namespace TrabalhoPratico1
             int restamParaGanhar = 56 - posicao;
             if (posicao >= 51)
             {
-                if (estaFinalizando == false)
+                if (estaFinalizando == false && restamParaGanhar != 0)
                 {
                     saida += $"\n---> {Nome} {Cor} está agora na RETA FINAL!!";
                     Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} está agora na RETA FINAL");
@@ -187,7 +198,8 @@ namespace TrabalhoPratico1
                     {
                         saida += $"\n---> {Nome} {Cor} CHEGOU AO FINAL!!";
                         Relatorio.AdicionarMomentoImportante($"***> {Nome} {Cor} CHEGOU AO FINAL!!");
-                        terminou = true;  
+                        terminou = true;
+                        EstaFinalizando = true;
                     }
                     else
                     {
