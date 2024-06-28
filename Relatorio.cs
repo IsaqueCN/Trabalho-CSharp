@@ -11,7 +11,7 @@ namespace TrabalhoPratico1
         private static int contadorRetaFinal = 0;
         private static int contadorFinalistas = 0;
         private static int contadorMomentosImportantes = 0;
-        private static int contadorTurno = 1;
+        private static int contadorTurno = 0;
 
         private static string diretorio = "Relatorio_JogoLudo.txt";
         private static string nomeDoVencedor;
@@ -81,11 +81,11 @@ namespace TrabalhoPratico1
         public static void EscreverTurno(string nomeJogador)
         {
             StreamWriter Writer = writerAdicionar;
+            contadorTurno++;
             string texto = $"\n======== TURNO {contadorTurno} ========\n\nO jogador {nomeJogador} está jogando.";
-
             Writer.WriteLine(texto);
             andamentoDoJogo += $"{texto}\n";
-            contadorTurno++;
+
             Writer.Close();
         }
 
@@ -101,7 +101,7 @@ namespace TrabalhoPratico1
         }
         public static void AdicionarMomentoImportante(string texto)
         {
-            momentosImportantes += $"TURNO {contadorTurno - 1}: {texto}\n";
+            momentosImportantes += $"TURNO {contadorTurno}: {texto}\n";
             mudancasPendentes = true;
 
             contadorMomentosImportantes++;
@@ -109,9 +109,9 @@ namespace TrabalhoPratico1
             texto = texto.ToUpper();
 
             if (texto.Contains("RETA FINAL"))
-                contadorFinalistas++;
-            else if (texto.Contains("CHEGOU AO FINAL"))
                 contadorRetaFinal++;
+            else if (texto.Contains("CHEGOU AO FINAL"))
+                contadorFinalistas++;
             else if (texto.Contains("CAPTUROU"))
                 contadorCapturas++;
         }
@@ -140,10 +140,10 @@ namespace TrabalhoPratico1
             else
                 finalistaTexto = $"{contadorFinalistas} Peões finalizaram o percurso";
 
-            if (contadorTurno == 2)
+            if (contadorTurno == 1)
                 turnosTexto = "1 Turno aconteceu";
             else
-                turnosTexto = $"{contadorTurno - 1} Turnos aconteceram";
+                turnosTexto = $"{contadorTurno} Turnos aconteceram";
 
             if (contadorMomentosImportantes == 1)
                 importantesTexto = "1 Momento importante ocorreu";

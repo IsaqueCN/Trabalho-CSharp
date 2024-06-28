@@ -157,10 +157,10 @@ namespace TrabalhoPratico1
                 Peao PeaoCapturado = Tabuleiro.VerificarCaptura(this);
                 if (PeaoCapturado != null)
                 {
-                    saida += $"---> {Nome} {Cor} capturou o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!";
+                    saida += $"---> {Nome} {Cor} CAPTUROU o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!";
                     Console.WriteLine(saida);
                     Relatorio.Escrever(saida);
-                    Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} capturou o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!");
+                    Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} CAPTUROU o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!");
 
                     PeaoCapturado.Prender();
                 }
