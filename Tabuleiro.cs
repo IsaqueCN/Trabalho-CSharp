@@ -55,7 +55,8 @@ namespace TrabalhoPratico1
                 {
                     if (jogador.MeusPeoes[j].Posicao % 13 == (POS % 13) &&
                         jogador.MeusPeoes[j].EstaSeguro == false &&
-                        jogador.MeusPeoes[j].FileiraAtual == peao.FileiraAtual)
+                        jogador.MeusPeoes[j].FileiraAtual == peao.FileiraAtual &&
+                        jogador.MeusPeoes[j].EstaFinalizando == false)
                     {
                         return jogador.MeusPeoes[j];
                     }

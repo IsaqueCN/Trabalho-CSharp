@@ -105,7 +105,7 @@ namespace TrabalhoPratico1
 
                 saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
                 if (terminou == false)
-                {
+                {                   
                     saida = VerificarFinalizou(saida);
                     if (estaFinalizando == true)
                     {
@@ -160,6 +160,7 @@ namespace TrabalhoPratico1
                     saida += $"---> {Nome} {Cor} capturou o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!";
                     Console.WriteLine(saida);
                     Relatorio.Escrever(saida);
+                    Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} capturou o {PeaoCapturado.Nome} {PeaoCapturado.Cor}!");
 
                     PeaoCapturado.Prender();
                 }
@@ -174,14 +175,18 @@ namespace TrabalhoPratico1
                 if (estaFinalizando == false)
                 {
                     saida += $"\n---> {Nome} {Cor} está agora na RETA FINAL!!";
+                    Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} está agora na RETA FINAL");
+
                     saida += $"\n---> Faltam {restamParaGanhar} casas para o {Nome} {Cor} terminar";
                     estaFinalizando = true;
+                    DefinirSeguranca(posicao);
                 }
                 else
                 {
                     if (restamParaGanhar == 0)
                     {
                         saida += $"\n---> {Nome} {Cor} CHEGOU AO FINAL!!";
+                        Relatorio.AdicionarMomentoImportante($"***> {Nome} {Cor} CHEGOU AO FINAL!!");
                         terminou = true;
                     }
                     else

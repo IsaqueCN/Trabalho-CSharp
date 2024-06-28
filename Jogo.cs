@@ -53,6 +53,7 @@ namespace TrabalhoPratico1
                 Jogador jogadorTurno = Jogadores[turno];
                 Console.WriteLine($"É o turno do jogador {jogadorTurno.Cor}!");
                 Relatorio.EscreverTurno(jogadorTurno.Cor);
+                Relatorio.AtualizarRelatorio();
 
                 int qtdDados;
                 int[] dados = jogadorTurno.RolarDado(out qtdDados);
@@ -82,6 +83,8 @@ namespace TrabalhoPratico1
                         string MensagemVitoria = $"\n======== O JOGADOR {JogadorVitorioso.Cor.ToUpper()} VENCEU! ========";
                         Console.WriteLine(MensagemVitoria);
                         Relatorio.Escrever(MensagemVitoria);
+                        Relatorio.AdicionarMomentoImportante($"O Jogador {JogadorVitorioso.Cor.ToUpper()} venceu a partida!");
+                        Relatorio.NomeDoVencedor = JogadorVitorioso.Cor.ToUpper();
                     }
                 }
 
@@ -95,6 +98,7 @@ namespace TrabalhoPratico1
                     turno++;
                 }
             }
+            Relatorio.AtualizarRelatorio();
             Console.ReadLine();
         }
 
