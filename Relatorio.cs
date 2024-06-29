@@ -77,7 +77,6 @@ namespace TrabalhoPratico1
 
             Writer.Close();
         }
-
         public static void EscreverTurno(string nomeJogador)
         {
             StreamWriter Writer = writerAdicionar;

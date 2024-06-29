@@ -64,8 +64,6 @@ namespace TrabalhoPratico1
             get { return posicao; }
             set { posicao = value; }
         }
-
-
         public Peao(Jogador Jogador, string Cor, string Nome)
         {
             Cor = Cor.ToLower();
@@ -118,6 +116,7 @@ namespace TrabalhoPratico1
                             int[] dados = meuJogador.RolarDado(out qtdDados);
                             Jogo.AdicionarDados(dados, qtdDados, meuJogador);
                         }
+                        DefinirSeguranca(posicao);
                         return;
                     }
                 }
@@ -190,7 +189,6 @@ namespace TrabalhoPratico1
 
                     saida += $"\n---> Faltam {restamParaGanhar} casas para o {Nome} {Cor} terminar";
                     estaFinalizando = true;
-                    DefinirSeguranca(posicao);
                 }
                 else
                 {

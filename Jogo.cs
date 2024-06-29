@@ -109,7 +109,6 @@ namespace TrabalhoPratico1
             Relatorio.AtualizarRelatorio();
             Console.ReadLine();
         }
-
         static Jogador VerificarVitoria()
         {
             for (int i = 0; i < qtdJogadores; i++)
@@ -175,7 +174,6 @@ namespace TrabalhoPratico1
             }
             Console.ReadLine();
         }
-        
         public static void AdicionarDados(int[] dados, int qtdDadosRolados, Jogador jogadorTurno)
         {
             string saida = "";
