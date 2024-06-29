@@ -136,7 +136,7 @@ namespace TrabalhoPratico1
 
         public void DefinirSeguranca(int posicao)
         {
-            if (Tabuleiro.VerificarCasaSegura(posicao))
+            if (Tabuleiro.VerificarCasaSegura(posicao) == true)
             {
                 if (estaSeguro == false)
                 {
