@@ -18,7 +18,6 @@ namespace TrabalhoPratico1
         private static string relatorioGeral = "----- RELATORIO GERAL -----\n\n";
         private static string momentosImportantes = "----- MOMENTOS IMPORTANTES -----\n\n";
         private static string andamentoDoJogo = "----- ANDAMENTO DO JOGO -----\n\n";
-        private static bool mudancasPendentes = false;
         //É uma propriedade facilitadora que retorna um novo StreamWriter para adicionar uma nova escrita no arquivo. 
         public static int ContadorCapturas
         {
@@ -101,7 +100,6 @@ namespace TrabalhoPratico1
         public static void AdicionarMomentoImportante(string texto)
         {
             momentosImportantes += $"TURNO {contadorTurno}: {texto}\n";
-            mudancasPendentes = true;
 
             contadorMomentosImportantes++;
 
