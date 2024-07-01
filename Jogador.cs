@@ -8,7 +8,7 @@ namespace TrabalhoPratico1
 {
     internal class Jogador
     {
-        static Random Random = new Random();
+        private static Random Random = new Random();
 
         private string cor;
         private Peao[] meusPeoes = new Peao[4];

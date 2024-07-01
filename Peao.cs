@@ -114,7 +114,15 @@ namespace TrabalhoPratico1
                         {
                             int qtdDados;
                             int[] dados = meuJogador.RolarDado(out qtdDados);
-                            Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                            if (dados != null)
+                                Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                            else
+                            {
+                                Jogo.QtdDadosAtuais = 0;
+                                Console.WriteLine($"Jogador {meuJogador.Cor} rolou 6 três vezes e passou a vez!");
+                                Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
+                                Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {meuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
+                            }
                         }
                         DefinirSeguranca(posicao);
                         return;
@@ -172,7 +180,15 @@ namespace TrabalhoPratico1
 
                     int qtdDados;
                     int[] dados = meuJogador.RolarDado(out qtdDados);
-                    Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                    if (dados != null)
+                        Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                    else
+                    {
+                        Jogo.QtdDadosAtuais = 0;
+                        Console.WriteLine($"Jogador {meuJogador.Cor} rolou 6 três vezes e passou a vez!");
+                        Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
+                        Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {meuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
+                    }
                 }
             }
         }
