@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TrabalhoPratico1
 {
+    /// <summary>
+    /// Controla a criação e edição do relatório do jogo Ludo.
+    /// </summary>
     internal class Relatorio
     {
         private static int contadorCapturas = 0;
@@ -18,7 +21,7 @@ namespace TrabalhoPratico1
         private static string relatorioGeral = "----- RELATORIO GERAL -----\n\n";
         private static string momentosImportantes = "----- MOMENTOS IMPORTANTES -----\n\n";
         private static string andamentoDoJogo = "----- ANDAMENTO DO JOGO -----\n\n";
-        //É uma propriedade facilitadora que retorna um novo StreamWriter para adicionar uma nova escrita no arquivo. 
+
         public static int ContadorCapturas
         {
             get { return contadorCapturas; }
@@ -48,16 +51,26 @@ namespace TrabalhoPratico1
             get { return nomeDoVencedor; }
             set { nomeDoVencedor = value; }
         }
+
+        /// <summary>
+        /// Propiedade facilitadora para adicionar textos ao final do relatório.
+        /// </summary>
         private static StreamWriter writerAdicionar
         {
             get { return new StreamWriter(diretorio, true, Encoding.UTF8); }
         }
+        
+        /// <summary>
+        /// Propiedade facilitadora que substitui o relatório por um texto.
+        /// </summary>
         private static StreamWriter writerSubstituir
         {
             get { return new StreamWriter(diretorio, false, Encoding.UTF8); }
         }
 
-        //Limpa o relatório e começa um novo
+        /// <summary>
+        /// Começa um novo relatório.
+        /// </summary>
         public static void Comecar()
         {
             StreamWriter Writer = writerSubstituir;
@@ -67,7 +80,10 @@ namespace TrabalhoPratico1
 
             Writer.Close();
         }
-        //Quando chamada escreve qualquer texto passada como parametro.
+        
+        /// <summary>
+        /// Escreve um texto no relatório.
+        /// </summary>
         public static void Escrever(string texto)
         {
             StreamWriter Writer = writerAdicionar;
@@ -76,6 +92,10 @@ namespace TrabalhoPratico1
 
             Writer.Close();
         }
+        
+        /// <summary>
+        /// Escreve no relatório o turno atual e quem está jogando.
+        /// </summary>
         public static void EscreverTurno(string nomeJogador)
         {
             StreamWriter Writer = writerAdicionar;
@@ -87,6 +107,9 @@ namespace TrabalhoPratico1
             Writer.Close();
         }
 
+        /// <summary>
+        /// Atualiza todas as informações e a formatação do relatório.
+        /// </summary>
         public static void AtualizarRelatorio()
         {
             StreamWriter Writer = writerSubstituir;
@@ -97,6 +120,10 @@ namespace TrabalhoPratico1
 
             Writer.Close();
         }
+        
+        /// <summary>
+        /// Adiciona um texto que aparecerá na seção de Momentos Importantes no relatório.
+        /// </summary>
         public static void AdicionarMomentoImportante(string texto)
         {
             momentosImportantes += $"TURNO {contadorTurno}: {texto}\n";
@@ -113,6 +140,10 @@ namespace TrabalhoPratico1
                 contadorCapturas++;
         }
 
+        /// <summary>
+        /// Obtem todas as estatísticas para a seção Relatorio Geral.
+        /// </summary>
+        /// <returns>Texto do Relatório Geral</returns>
         public static string ReceberRelatorioGeral()
         {
             string capturasTexto, retaFinalTexto, finalistaTexto, turnosTexto, importantesTexto, vitoriosoTexto;
@@ -122,6 +153,7 @@ namespace TrabalhoPratico1
             else
                 vitoriosoTexto = $"O Jogador {nomeDoVencedor} venceu o jogo";
 
+            // Corrigindo textos por questão de português.
             if (contadorCapturas == 1)
                 capturasTexto = "1 Peão foi capturado";
             else

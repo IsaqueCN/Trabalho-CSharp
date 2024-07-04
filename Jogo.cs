@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace TrabalhoPratico1
 {         
+    /// <summary>
+    /// Esta classe controla a criação dos jogadores, cada turno e andamento do jogo em geral
+    /// </summary>
     class Jogo
     {
         private static Jogador[] jogadores;
@@ -109,6 +112,11 @@ namespace TrabalhoPratico1
             Relatorio.AtualizarRelatorio();
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// Realiza um loop para verificar se algum jogador venceu o jogo
+        /// </summary>
+        /// <return>Caso haja vencedor, retorna a instancia do Jogador, caso contrário retorna null.</return>
         static Jogador VerificarVitoria()
         {
             for (int i = 0; i < qtdJogadores; i++)
@@ -130,6 +138,10 @@ namespace TrabalhoPratico1
             }
             return null;
         }
+
+        /// <summary>
+        /// Executa um loop que executará todos os dados tirados no presente turno.
+        /// </summary>
         static void FazerJogada(Jogador jogador)
         {
             for (int i = 0; qtdDadosAtuais > 0; i++)
@@ -166,6 +178,7 @@ namespace TrabalhoPratico1
                     jogador.AcionarDado(dadosAtuais[decisao - 1]);
                 }
 
+                // Algoritmo para eliminar a opção do dado que foi usado
                 for (int k = decisao; k < qtdDadosAtuais; k++)
                 {
                     dadosAtuais[k - 1] = dadosAtuais[k];
@@ -174,6 +187,10 @@ namespace TrabalhoPratico1
             }
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// Controla o acréscimo de dados para o turno atual.
+        /// </summary>
         public static void AdicionarDados(int[] dados, int qtdDadosRolados, Jogador jogadorTurno)
         {
             string saida = "";
@@ -189,6 +206,12 @@ namespace TrabalhoPratico1
             Relatorio.Escrever(saida);
             Console.WriteLine($"{saida}\n");
         }
+
+        /// <summary>
+        /// Cria e define cada jogador do jogo, atribuindo eles ao vetor Jogadores.
+        /// O usuário através de um menu de opções escolhe qual será sua cor.
+        /// </summary>
+        /// <returns>Vetor com Jogadores definidos</returns>
         static Jogador[] DefinirJogadores(int qtdJogadores)
         {
             Jogador[] Jogadores = new Jogador[4];
@@ -248,7 +271,7 @@ namespace TrabalhoPratico1
                 }
 
                 coresAceitas[decisao - 1] = null;
-
+                // Algoritmo para eliminar a opção escolhida
                 for (int k = decisao; k < coresAceitas.Length - i; k++)
                 {
                     coresAceitas[k - 1] = coresAceitas[k];

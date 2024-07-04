@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TrabalhoPratico1
 {
+    /// <summary>
+    /// Esta classe controla todo o movimento e status do peão no tabuleiro
+    /// </summary>
     internal class Peao
     {
         private string nome;
@@ -74,6 +77,9 @@ namespace TrabalhoPratico1
             nome = Nome;
         }
 
+        /// <summary>
+        /// Leva o peão para a posição -1 e altera EstaLivre para false
+        /// </summary>
         public void Prender()
         {
             Posicao = -1;
@@ -83,6 +89,11 @@ namespace TrabalhoPratico1
             Console.WriteLine(saida);
             Relatorio.Escrever(saida);
         }
+
+        /// <summary>
+        /// Move o peão no tabuleiro e executa todas as ações decorrentes de seu movimento
+        /// Seja tirar da prisão, capturar, chegar na reta final ou ao final do tabuleiro
+        /// </summary>
         public void Mover(int casas)
         {
             string saida = "";
@@ -142,6 +153,10 @@ namespace TrabalhoPratico1
             TentarCaptura(Posicao);
         }
 
+        /// <summary>
+        /// Verifica se o dado está atualmente seguro
+        /// Define a varíavel EstaSeguro para que esteja de acordo
+        /// </summary>
         public void DefinirSeguranca(int posicao)
         {
             if (Tabuleiro.VerificarCasaSegura(posicao) == true)
@@ -163,6 +178,10 @@ namespace TrabalhoPratico1
             }
         }
 
+        /// <summary>
+        /// Verifica se há um peão que foi capturado na casa do tabuleiro atual
+        /// Caso haja, o peão capturado será preso e o jogador rolará dados novamente
+        /// </summary>
         public void TentarCaptura(int posicao)
         {
             string saida = "";
@@ -193,6 +212,10 @@ namespace TrabalhoPratico1
             }
         }
 
+        /// <summary>
+        /// Verifica se o peão chegou à reta final ou ao final do tabuleiro
+        /// Define as variáveis EstaFinalizando e Terminou para que estejam de acordo
+        /// </summary>
         public string VerificarFinalizou(string saida)
         {
             int restamParaGanhar = 56 - Posicao;

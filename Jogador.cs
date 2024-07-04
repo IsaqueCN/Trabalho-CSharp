@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrabalhoPratico1
 {
+    /// <summary>
+    /// Contem informações do Jogador e seus peões, controla o rolamento e acionamento de dados no tabuleiro
+    /// </summary>
     internal class Jogador
     {
         private static Random Random = new Random();
@@ -35,7 +38,10 @@ namespace TrabalhoPratico1
             MeusPeoes[3] = new Peao(this, cor, "Peao 4");
         }
 
-        // Retorna null se não houver peões presos, senão retorna vetor e qtd de peões presos
+        /// <summary>
+        /// Obtem todos os peões presos da instancia do Jogador
+        /// </summary>
+        /// <returns>Retorna um vetor com os peões presos e a quantidade de presos, caso não haja, retorna null</returns>
         public Peao[] PeoesPresos(out int qtdPeoesPresos)
         {
             Peao[] peoesPresos = new Peao[4];
@@ -56,6 +62,10 @@ namespace TrabalhoPratico1
                 return peoesPresos;
         }
 
+        /// <summary>
+        /// Verifica todos os peões que podem ser movidos com determinado dado.
+        /// </summary>
+        /// <returns>Retorna um vetor com os peões movíveis e a quantidade de peões movíveis, caso não haja, retorna null</returns>
         public Peao[] PeoesMoviveis(int valorDado, out int qtdPeoesMoviveis)
         {
             Peao[] peoesMoviveis = new Peao[4];
@@ -80,6 +90,11 @@ namespace TrabalhoPratico1
             else
                 return peoesMoviveis;
         }
+
+        /// <summary>
+        /// Disponibiliza um menu de opções com todas as ações possíveis com determinado dado.
+        /// O usuário pode escolher mover ou tirar algum dado da prisão.
+        /// </summary>
         public void AcionarDado(int valor)
         {
             Relatorio.Escrever($"\nO dado {valor} foi acionado:");
@@ -126,6 +141,7 @@ namespace TrabalhoPratico1
                 }
             }
 
+            // Caso o jogador tenha escolhido mover algum dado
             decisao = 0;
             if (peoesMoviveis == null)
             {
@@ -165,7 +181,10 @@ namespace TrabalhoPratico1
             }
         }
 
-        // Retorna null se tiver pegado 6 três vezes, senão retorna um vetor com os dados rolados, no vetor 0 significa fim.
+        /// <summary>
+        /// Tira dados com valores aleatórios.
+        /// </summary>
+        /// <returns>Retorna um vetor com os dados tirados e a quantidade de dados que foram tirados, caso tire mais de 3 dados retornará null</returns>
         public int[] RolarDado(out int contador)
         {
             int[] dadosRolados = new int[3];

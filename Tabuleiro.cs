@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace TrabalhoPratico1
 {
+    /// <summary>
+    /// Fornece funções uteis relacionadas ao tabuleiro do jogo Ludo.
+    /// </summary>
     internal class Tabuleiro
     {
-        //Encontrar próxima fileira
+        /// <summary>
+        /// Encontra a próxima fileira no tabuleiro Ludo.
+        /// </summary>
+        /// <returns>Próxima fileira em relação a fileira recebida</returns>
         public static string EncontrarProximaFileira(string nomeDaFileira)
         {
             nomeDaFileira = nomeDaFileira.ToLower();
@@ -24,6 +30,9 @@ namespace TrabalhoPratico1
             }
         }
 
+        /// <summary>
+        /// Verifica se a posição recebida é uma casa segura.
+        /// </summary>
         public static bool VerificarCasaSegura (int posicao)
         {
             //Obtem a posição do peão na sua fileira atual
@@ -39,6 +48,10 @@ namespace TrabalhoPratico1
             
         }
 
+        /// <summary>
+        /// Verifica se determinado peão capturou algum outro peão.
+        /// </summary>
+        /// <returns>Peão capturado ou null se não houver.</returns>
         public static Peao VerificarCaptura (Peao peao)
         {
             int POS = peao.Posicao;
