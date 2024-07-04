@@ -76,9 +76,9 @@ namespace TrabalhoPratico1
 
         public void Prender()
         {
-            posicao = -1;
-            estaLivre = false;
-            fileiraAtual = cor;
+            Posicao = -1;
+            EstaLivre = false;
+            FileiraAtual = cor;
             string saida = $"---> {Nome} {Cor} voltou para a prisão";
             Console.WriteLine(saida);
             Relatorio.Escrever(saida);
@@ -90,63 +90,63 @@ namespace TrabalhoPratico1
             {
                 if (casas == 6)
                 {
-                    posicao = 0;
-                    fileiraAtual = cor;
+                    Posicao = 0;
+                    FileiraAtual = cor;
                     EstaLivre = true;
                     saida = $"---> {Nome} {Cor} foi retirado da prisão!";
                 }
             }
             else
             {
-                int POS = posicao % 13;
-                posicao += casas;
+                int POS = Posicao % 13;
+                Posicao += casas;
 
-                saida = $"---> {Nome} {Cor} moveu para a posição {posicao}!";
-                if (terminou == false)
+                saida = $"---> {Nome} {Cor} moveu para a posição {Posicao}!";
+                if (Terminou == false)
                 {                   
                     saida = VerificarFinalizou(saida);
-                    if (estaFinalizando == true)
+                    if (EstaFinalizando == true)
                     {
                         Console.WriteLine($"\n{saida}");
                         Relatorio.Escrever(saida);
 
-                        if (terminou == true)
+                        if (Terminou == true)
                         {
                             int qtdDados;
-                            int[] dados = meuJogador.RolarDado(out qtdDados);
+                            int[] dados = MeuJogador.RolarDado(out qtdDados);
                             if (dados != null)
-                                Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                                Jogo.AdicionarDados(dados, qtdDados, MeuJogador);
                             else
                             {
                                 Jogo.QtdDadosAtuais = 0;
-                                Console.WriteLine($"Jogador {meuJogador.Cor} rolou 6 três vezes e passou a vez!");
+                                Console.WriteLine($"Jogador {MeuJogador.Cor} rolou 6 três vezes e passou a vez!");
                                 Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
-                                Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {meuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
+                                Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {MeuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
                             }
                         }
-                        DefinirSeguranca(posicao);
+                        DefinirSeguranca(Posicao);
                         return;
                     }
                 }
 
                 if (POS + casas >= 13)
                 {
-                    fileiraAtual = Tabuleiro.EncontrarProximaFileira(fileiraAtual);
-                    saida += $"\n---> {Nome} {Cor} está agora na fileira com cor: {fileiraAtual.ToUpper()}!";
+                    FileiraAtual = Tabuleiro.EncontrarProximaFileira(FileiraAtual);
+                    saida += $"\n---> {Nome} {Cor} está agora na fileira com cor: {FileiraAtual.ToUpper()}!";
                 }
             }
             Console.WriteLine($"\n{saida}");
             Relatorio.Escrever(saida);
 
-            DefinirSeguranca(posicao);
-            TentarCaptura(posicao);
+            DefinirSeguranca(Posicao);
+            TentarCaptura(Posicao);
         }
 
         public void DefinirSeguranca(int posicao)
         {
             if (Tabuleiro.VerificarCasaSegura(posicao) == true)
             {
-                if (estaSeguro == false)
+                if (EstaSeguro == false)
                 {
                     EstaSeguro = true;
                     string saida = $"---> {Nome} {Cor} agora está seguro!";
@@ -154,7 +154,7 @@ namespace TrabalhoPratico1
                     Relatorio.Escrever(saida);
                 }
             }
-            else if (estaSeguro == true)
+            else if (EstaSeguro == true)
             {
                 EstaSeguro = false;
                 string saida = $"---> {Nome} {Cor} não está mais seguro!";
@@ -166,7 +166,7 @@ namespace TrabalhoPratico1
         public void TentarCaptura(int posicao)
         {
             string saida = "";
-            if (estaSeguro == false)
+            if (EstaSeguro == false)
             {
                 Peao PeaoCapturado = Tabuleiro.VerificarCaptura(this);
                 if (PeaoCapturado != null)
@@ -179,15 +179,15 @@ namespace TrabalhoPratico1
                     PeaoCapturado.Prender();
 
                     int qtdDados;
-                    int[] dados = meuJogador.RolarDado(out qtdDados);
+                    int[] dados = MeuJogador.RolarDado(out qtdDados);
                     if (dados != null)
-                        Jogo.AdicionarDados(dados, qtdDados, meuJogador);
+                        Jogo.AdicionarDados(dados, qtdDados, MeuJogador);
                     else
                     {
                         Jogo.QtdDadosAtuais = 0;
-                        Console.WriteLine($"Jogador {meuJogador.Cor} rolou 6 três vezes e passou a vez!");
+                        Console.WriteLine($"Jogador {MeuJogador.Cor} rolou 6 três vezes e passou a vez!");
                         Relatorio.Escrever("O jogador rolou 6 três vezes e perdeu a vez");
-                        Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {meuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
+                        Relatorio.AdicionarMomentoImportante($"---> RARO! Jogador {MeuJogador.Cor} rolou 6 três vezes e perdeu a vez!");
                     }
                 }
             }
@@ -195,16 +195,16 @@ namespace TrabalhoPratico1
 
         public string VerificarFinalizou(string saida)
         {
-            int restamParaGanhar = 56 - posicao;
-            if (posicao >= 51)
+            int restamParaGanhar = 56 - Posicao;
+            if (Posicao >= 51)
             {
-                if (estaFinalizando == false && restamParaGanhar != 0)
+                if (EstaFinalizando == false && restamParaGanhar != 0)
                 {
                     saida += $"\n---> {Nome} {Cor} está agora na RETA FINAL!!";
                     Relatorio.AdicionarMomentoImportante($"---> {Nome} {Cor} está agora na RETA FINAL");
 
                     saida += $"\n---> Faltam {restamParaGanhar} casas para o {Nome} {Cor} terminar";
-                    estaFinalizando = true;
+                    EstaFinalizando = true;
                 }
                 else
                 {
