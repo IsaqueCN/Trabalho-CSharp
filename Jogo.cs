@@ -6,7 +6,7 @@ namespace TrabalhoPratico1
 {         
     class Jogo
     {
-        private static Jogador[] jogadores = new Jogador[4];
+        private static Jogador[] jogadores;
         private static int qtdJogadores = 0;
         private static int qtdDadosAtuais = 0;
         private static int[] dadosAtuais = new int[50];
@@ -134,12 +134,13 @@ namespace TrabalhoPratico1
         {
             for (int i = 0; qtdDadosAtuais > 0; i++)
             {
+                int decisao = 0;
+
                 if (qtdDadosAtuais == 1)
                 {
                     Console.WriteLine($"\nPor ser o único dado disponível, o dado {dadosAtuais[0]} está sendo acionado imediatamente!");
                     jogador.AcionarDado(dadosAtuais[0]);
-                    qtdDadosAtuais--;
-                    DadosAtuais[0] = DadosAtuais[1];
+                    decisao = 1;
                 }
                 else
                 {
@@ -148,8 +149,6 @@ namespace TrabalhoPratico1
                     {
                         Console.WriteLine($"\t{j + 1} - Dado {dadosAtuais[j]}");
                     }
-
-                    int decisao = 0;
 
                     do
                     {
@@ -165,12 +164,13 @@ namespace TrabalhoPratico1
                     } while (decisao <= 0 || decisao > qtdDadosAtuais);
 
                     jogador.AcionarDado(dadosAtuais[decisao - 1]);
-                    for (int k = decisao; k < qtdDadosAtuais; k++)
-                    {
-                        dadosAtuais[k - 1] = dadosAtuais[k];
-                    }
-                    qtdDadosAtuais--;
                 }
+
+                for (int k = decisao; k < qtdDadosAtuais; k++)
+                {
+                    dadosAtuais[k - 1] = dadosAtuais[k];
+                }
+                qtdDadosAtuais--;
             }
             Console.ReadLine();
         }
@@ -188,7 +188,6 @@ namespace TrabalhoPratico1
 
             Relatorio.Escrever(saida);
             Console.WriteLine($"{saida}\n");
-
         }
         static Jogador[] DefinirJogadores(int qtdJogadores)
         {

@@ -54,7 +54,6 @@ namespace TrabalhoPratico1
                 for (int j = 0; j < jogador.MeusPeoes.Length; j++)
                 {
                     if (jogador.MeusPeoes[j].Posicao % 13 == (POS % 13) &&
-                        jogador.MeusPeoes[j].EstaSeguro == false &&
                         jogador.MeusPeoes[j].FileiraAtual == peao.FileiraAtual &&
                         jogador.MeusPeoes[j].EstaFinalizando == false)
                     {
